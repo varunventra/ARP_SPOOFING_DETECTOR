@@ -32,7 +32,12 @@
 - `store=False` set on all `sniff()` calls — retrofitting later requires rewriting the capture loop
 - `matplotlib.use("Agg")` added to `visualizer.py` stub in this phase — placing it after any `pyplot` import breaks all visualization
 
-**Plans:** TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Project scaffold + ARPTable class (DET-01) + visualizer Agg stub + test_arp_table.py
+- [ ] 01-02-PLAN.md — detector.py conflict logic + test_detector.py (first-seen, conflict, op filter, gratuitous ARP)
+- [ ] 01-03-PLAN.md — capture.py AsyncSniffer + Queue + root check + --iface CLI + test_capture.py + pcap fixture
 
 ---
 
@@ -153,7 +158,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Core Data Layer + Capture Skeleton | 0/? | Not started | - |
+| 1. Core Data Layer + Capture Skeleton | 0/3 | Planned | - |
 | 2. Detection Pipeline + Alerting | 0/? | Not started | - |
 | 3. Visualization + Reporting | 0/? | Not started | - |
 | 4. Shell Integration | 0/? | Not started | - |
