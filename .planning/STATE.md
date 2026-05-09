@@ -4,14 +4,14 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 01
 status: executing
-stopped_at: Completed 01-02-PLAN.md (detector.py check_packet() implementation)
-last_updated: "2026-05-09T07:36:40.917Z"
+stopped_at: Completed 01-03-PLAN.md (capture.py with AsyncSniffer, 28 tests passing)
+last_updated: "2026-05-09T07:43:06.924Z"
 progress:
   total_phases: 5
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 2
-  percent: 67
+  completed_plans: 3
+  percent: 100
 ---
 
 # Project State
@@ -33,7 +33,7 @@ See: .planning/PROJECT.md (updated 2026-05-05)
 
 | # | Name | Status |
 |---|------|--------|
-| 1 | Core Data Layer + Capture Skeleton | Pending |
+| 1 | Core Data Layer + Capture Skeleton | Complete |
 | 2 | Detection Pipeline + Alerting | Pending |
 | 3 | Visualization + Reporting | Pending |
 | 4 | Shell Integration | Pending |
@@ -41,12 +41,12 @@ See: .planning/PROJECT.md (updated 2026-05-05)
 
 ## Current Position
 
-Phase: 01 (Core Data Layer + Capture Skeleton) — EXECUTING
-Plan: 3 of 3 (01-01 complete, 01-02 complete, starting 01-03)
+Phase: 01 (Core Data Layer + Capture Skeleton) — COMPLETE
+Plan: 3 of 3 (01-01 complete, 01-02 complete, 01-03 complete)
 **Phase:** 01
-**Plan:** 01-02 complete
-**Status:** Executing Phase 01 — 2/3 plans complete
-**Progress:** [███████░░░] 67%
+**Plan:** 01-03 complete
+**Status:** Phase 01 complete — all 3 plans done
+**Progress:** [██████████] 100%
 
 ## Performance Metrics
 
@@ -58,6 +58,7 @@ Plan: 3 of 3 (01-01 complete, 01-02 complete, starting 01-03)
 | Plans complete | 0 |
 | Phase 01 P01 | 15 | 2 tasks | 8 files |
 | Phase 01 P02 | 1 | 1 tasks | 2 files |
+| Phase 01 P03 | 8 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -71,6 +72,8 @@ Plan: 3 of 3 (01-01 complete, 01-02 complete, starting 01-03)
 | Demo via simulate_attack.py + demo_capture.pcap | WSL2 Hyper-V NAT hides real LAN ARP traffic from the sniffer | Phase 5 |
 | pandas .loc[] assignment, never .append() | DataFrame.append() removed in pandas 2.0 | Phase 1 |
 | shell=True prohibited in subprocess calls | Security + testability constraint | Phase 4 |
+| Callback op=2-only; gratuitous ARP filter in detector.check_packet() | Separation of concerns: capture filters by wire type, detector applies semantic rules | Phase 1 |
+| check_root() uses getattr(os, 'geteuid', None) | os.geteuid absent on Windows; allows tests to run on both platforms with create=True mock | Phase 1 |
 
 ### Todos
 
@@ -88,9 +91,9 @@ Plan: 3 of 3 (01-01 complete, 01-02 complete, starting 01-03)
 
 ## Session Continuity
 
-**Last session:** 2026-05-09T07:36:40.914Z
-**Stopped at:** Completed 01-02-PLAN.md (detector.py check_packet() implementation)
-**Next action:** Execute 01-03 (capture skeleton with AsyncSniffer)
+**Last session:** 2026-05-09T07:43:06.921Z
+**Stopped at:** Completed 01-03-PLAN.md (capture.py with AsyncSniffer, 28 tests passing)
+**Next action:** Transition to Phase 02 — Detection Pipeline + Alerting
 **Context files:**
 
 - `.planning/PROJECT.md` — project definition, constraints, out-of-scope

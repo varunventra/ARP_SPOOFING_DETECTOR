@@ -6,7 +6,7 @@
 
 ## Phases
 
-- [ ] **Phase 1: Core Data Layer + Capture Skeleton** - Lay the foundation: threading model, ARP table, conflict logic, and capture loop — fully unit-testable without root or live network
+- [x] **Phase 1: Core Data Layer + Capture Skeleton** - Lay the foundation: threading model, ARP table, conflict logic, and capture loop — fully unit-testable without root or live network (completed 2026-05-09)
 - [ ] **Phase 2: Detection Pipeline + Alerting** - Wire capture into detection with baseline seeding, gratuitous ARP filtering, rich console alerts, JSONL logging, and graceful shutdown
 - [ ] **Phase 3: Visualization + Reporting** - Generate networkx topology PNG on attack events and produce a pandas-based CSV summary report at session end
 - [ ] **Phase 4: Shell Integration** - Implement subprocess wrappers and three shell scripts (baseline_scan.sh, analyze_log.sh, capture_raw.sh) meeting course shell-scripting requirement
@@ -32,12 +32,12 @@
 - `store=False` set on all `sniff()` calls — retrofitting later requires rewriting the capture loop
 - `matplotlib.use("Agg")` added to `visualizer.py` stub in this phase — placing it after any `pyplot` import breaks all visualization
 
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [x] 01-01-PLAN.md — Project scaffold + ARPTable class (DET-01) + visualizer Agg stub + test_arp_table.py
 - [x] 01-02-PLAN.md — detector.py conflict logic + test_detector.py (first-seen, conflict, op filter, gratuitous ARP)
-- [ ] 01-03-PLAN.md — capture.py AsyncSniffer + Queue + root check + --iface CLI + test_capture.py + pcap fixture
+- [x] 01-03-PLAN.md — capture.py AsyncSniffer + Queue + root check + --iface CLI + test_capture.py + pcap fixture
 
 ---
 
@@ -158,7 +158,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Core Data Layer + Capture Skeleton | 2/3 | In Progress|  |
+| 1. Core Data Layer + Capture Skeleton | 3/3 | Complete   | 2026-05-09 |
 | 2. Detection Pipeline + Alerting | 0/? | Not started | - |
 | 3. Visualization + Reporting | 0/? | Not started | - |
 | 4. Shell Integration | 0/? | Not started | - |

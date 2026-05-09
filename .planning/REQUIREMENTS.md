@@ -7,10 +7,10 @@
 
 ### Capture
 
-- [ ] **CAP-01**: Tool captures live ARP packets on a specified network interface using scapy with `store=False` and a `prn` callback
-- [ ] **CAP-02**: Tool accepts `--iface` CLI argument and auto-detects available interfaces if not provided (via `scapy.get_if_list()`)
-- [ ] **CAP-03**: Tool performs a root/sudo privilege check at startup and exits with a clear error message if not running as root
-- [ ] **CAP-04**: Tool captures only ARP op=2 (reply) packets via scapy filter `"arp"` with in-code op check
+- [x] **CAP-01**: Tool captures live ARP packets on a specified network interface using scapy with `store=False` and a `prn` callback
+- [x] **CAP-02**: Tool accepts `--iface` CLI argument and auto-detects available interfaces if not provided (via `scapy.get_if_list()`)
+- [x] **CAP-03**: Tool performs a root/sudo privilege check at startup and exits with a clear error message if not running as root
+- [x] **CAP-04**: Tool captures only ARP op=2 (reply) packets via scapy filter `"arp"` with in-code op check
 
 ### Detection
 
@@ -91,10 +91,10 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CAP-01 | Phase 1 | Pending |
-| CAP-02 | Phase 1 | Pending |
-| CAP-03 | Phase 1 | Pending |
-| CAP-04 | Phase 1 | Pending |
+| CAP-01 | Phase 1 | Complete |
+| CAP-02 | Phase 1 | Complete |
+| CAP-03 | Phase 1 | Complete |
+| CAP-04 | Phase 1 | Complete |
 | DET-01 | Phase 1 | Complete |
 | DET-02 | Phase 2 | Pending |
 | DET-03 | Phase 2 | Pending |
