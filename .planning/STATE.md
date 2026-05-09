@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 01
-status: executing
+current_phase: 2
+status: planning
 stopped_at: Completed 01-03-PLAN.md (capture.py with AsyncSniffer, 28 tests passing)
-last_updated: "2026-05-09T07:43:06.924Z"
+last_updated: "2026-05-09T07:47:14.415Z"
 progress:
   total_phases: 5
   completed_phases: 1
@@ -19,7 +19,7 @@ progress:
 ## Status
 
 Phase: 0 (Not started)
-Current Phase: 01
+Current Phase: 2
 Last Updated: 2026-05-05
 
 ## Project Reference
@@ -44,8 +44,8 @@ See: .planning/PROJECT.md (updated 2026-05-05)
 Phase: 01 (Core Data Layer + Capture Skeleton) — COMPLETE
 Plan: 3 of 3 (01-01 complete, 01-02 complete, 01-03 complete)
 **Phase:** 01
-**Plan:** 01-03 complete
-**Status:** Phase 01 complete — all 3 plans done
+**Plan:** Not started
+**Status:** Ready to plan
 **Progress:** [██████████] 100%
 
 ## Performance Metrics
