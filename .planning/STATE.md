@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 2
-status: planning
-stopped_at: Completed 01-03-PLAN.md (capture.py with AsyncSniffer, 28 tests passing)
-last_updated: "2026-05-09T07:47:14.415Z"
+status: executing
+stopped_at: Completed 02-01-PLAN.md (baseline.py arp-scan wrapper, 18 tests passing, 84 total)
+last_updated: "2026-05-09T08:14:42.949Z"
 progress:
   total_phases: 5
   completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
-  percent: 100
+  total_plans: 7
+  completed_plans: 4
+  percent: 57
 ---
 
 # Project State
@@ -27,7 +27,7 @@ Last Updated: 2026-05-05
 See: .planning/PROJECT.md (updated 2026-05-05)
 
 **Core value:** Real-time ARP spoofing detection with immediate console alerts — the tool must catch and surface an active ARP spoofing attack while it is happening, not after.
-**Current focus:** Phase 01 — Core Data Layer + Capture Skeleton
+**Current focus:** Phase 2 — Detection Pipeline + Alerting
 
 ## Phases
 
@@ -41,12 +41,12 @@ See: .planning/PROJECT.md (updated 2026-05-05)
 
 ## Current Position
 
-Phase: 01 (Core Data Layer + Capture Skeleton) — COMPLETE
-Plan: 3 of 3 (01-01 complete, 01-02 complete, 01-03 complete)
-**Phase:** 01
-**Plan:** Not started
-**Status:** Ready to plan
-**Progress:** [██████████] 100%
+Phase: 2 (Detection Pipeline + Alerting) — EXECUTING
+Plan: 2 of 4
+**Phase:** 02
+**Plan:** 02-01 complete, starting 02-02
+**Status:** Executing Phase 2
+**Progress:** [██████░░░░] 57%
 
 ## Performance Metrics
 
@@ -59,6 +59,7 @@ Plan: 3 of 3 (01-01 complete, 01-02 complete, 01-03 complete)
 | Phase 01 P01 | 15 | 2 tasks | 8 files |
 | Phase 01 P02 | 1 | 1 tasks | 2 files |
 | Phase 01 P03 | 8 | 2 tasks | 4 files |
+| Phase 02 P01 | 2 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -74,6 +75,9 @@ Plan: 3 of 3 (01-01 complete, 01-02 complete, 01-03 complete)
 | shell=True prohibited in subprocess calls | Security + testability constraint | Phase 4 |
 | Callback op=2-only; gratuitous ARP filter in detector.check_packet() | Separation of concerns: capture filters by wire type, detector applies semantic rules | Phase 1 |
 | check_root() uses getattr(os, 'geteuid', None) | os.geteuid absent on Windows; allows tests to run on both platforms with create=True mock | Phase 1 |
+| arp-scan output parsed via IPv4 regex on first tab-split field | Avoids fragile line-number assumptions; robust to arp-scan version changes in header/footer wording | Phase 2 |
+| load_baseline() returns int count, not list of entries | Caller only needs host count for logging; simpler interface | Phase 2 |
+| FileNotFoundError/TimeoutExpired in baseline: warn stderr, return 0 | Detector starts with empty (cold-start) baseline rather than crashing if arp-scan absent | Phase 2 |
 
 ### Todos
 
@@ -91,8 +95,8 @@ Plan: 3 of 3 (01-01 complete, 01-02 complete, 01-03 complete)
 
 ## Session Continuity
 
-**Last session:** 2026-05-09T07:43:06.921Z
-**Stopped at:** Completed 01-03-PLAN.md (capture.py with AsyncSniffer, 28 tests passing)
+**Last session:** 2026-05-09T08:14:42.945Z
+**Stopped at:** Completed 02-01-PLAN.md (baseline.py arp-scan wrapper, 18 tests passing, 84 total)
 **Next action:** Transition to Phase 02 — Detection Pipeline + Alerting
 **Context files:**
 

@@ -15,7 +15,7 @@
 ### Detection
 
 - [x] **DET-01**: Tool maintains an in-memory IP→MAC mapping table (pandas DataFrame) that persists learned associations across the session
-- [ ] **DET-02**: Tool bootstraps the ARP table from `arp-scan --localnet` output via subprocess at startup (baseline seeding)
+- [x] **DET-02**: Tool bootstraps the ARP table from `arp-scan --localnet` output via subprocess at startup (baseline seeding)
 - [ ] **DET-03**: Tool detects IP-MAC conflicts: when an ARP reply maps an IP to a different MAC than the known table entry, it flags a spoofing event
 - [ ] **DET-04**: Tool filters out gratuitous ARPs (where `psrc == pdst`) to avoid false positives during normal boot/DHCP cycles
 - [ ] **DET-05**: Tool records attack events with: timestamp, attacker MAC, victim IP, original (known) MAC, spoofed MAC, and attack type label
@@ -96,7 +96,7 @@
 | CAP-03 | Phase 1 | Complete |
 | CAP-04 | Phase 1 | Complete |
 | DET-01 | Phase 1 | Complete |
-| DET-02 | Phase 2 | Pending |
+| DET-02 | Phase 2 | Complete |
 | DET-03 | Phase 2 | Pending |
 | DET-04 | Phase 2 | Pending |
 | DET-05 | Phase 2 | Pending |

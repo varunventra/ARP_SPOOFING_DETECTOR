@@ -58,13 +58,13 @@ Plans:
 - Gratuitous ARP filter (`psrc == pdst` guard) must be applied before table lookup â€” adding it after detection logic risks shipping false-positive-prone code to the demo
 - DET-05 field set (timestamp, attacker MAC, victim IP, original MAC, spoofed MAC, attack type) is the contract between detector and logger/alert â€” locked here so both consumers use the same keys
 
-**Plans:** 4 plans
+**Plans:** 1/4 plans executed
 
 Plans:
-- [ ] 02-01-PLAN.md — baseline.py: arp-scan subprocess wrapper seeds ARPTable (DET-02)
-- [ ] 02-02-PLAN.md — logger.py: JSONLLogger class + build_event() DET-05 contract (DET-05, ALT-03, ALT-04)
-- [ ] 02-03-PLAN.md — alerts.py: format_alert_panel() rich Panel builder (ALT-01)
-- [ ] 02-04-PLAN.md — main.py: full detection pipeline entry point + live dashboard (DET-03, DET-04, ALT-02, ALT-04)
+- [x] 02-01-PLAN.md ï¿½ baseline.py: arp-scan subprocess wrapper seeds ARPTable (DET-02)
+- [ ] 02-02-PLAN.md ï¿½ logger.py: JSONLLogger class + build_event() DET-05 contract (DET-05, ALT-03, ALT-04)
+- [ ] 02-03-PLAN.md ï¿½ alerts.py: format_alert_panel() rich Panel builder (ALT-01)
+- [ ] 02-04-PLAN.md ï¿½ main.py: full detection pipeline entry point + live dashboard (DET-03, DET-04, ALT-02, ALT-04)
 
 ---
 
@@ -165,7 +165,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Core Data Layer + Capture Skeleton | 3/3 | Complete   | 2026-05-09 |
-| 2. Detection Pipeline + Alerting | 0/? | Not started | - |
+| 2. Detection Pipeline + Alerting | 1/4 | In Progress|  |
 | 3. Visualization + Reporting | 0/? | Not started | - |
 | 4. Shell Integration | 0/? | Not started | - |
 | 5. Integration + Demo Prep | 0/? | Not started | - |
