@@ -4,14 +4,14 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 2
 status: executing
-stopped_at: Completed 02-03-PLAN.md (alerts.py format_alert_panel, 7 tests passing, 105 total)
-last_updated: "2026-05-09T08:20:48.878Z"
+stopped_at: Completed 02-04-PLAN.md (main.py full pipeline entry point, 17 tests, 122 total)
+last_updated: "2026-05-09T08:25:12.822Z"
 progress:
   total_phases: 5
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 7
-  completed_plans: 6
-  percent: 86
+  completed_plans: 7
+  percent: 100
 ---
 
 # Project State
@@ -34,19 +34,19 @@ See: .planning/PROJECT.md (updated 2026-05-05)
 | # | Name | Status |
 |---|------|--------|
 | 1 | Core Data Layer + Capture Skeleton | Complete |
-| 2 | Detection Pipeline + Alerting | Pending |
+| 2 | Detection Pipeline + Alerting | Complete |
 | 3 | Visualization + Reporting | Pending |
 | 4 | Shell Integration | Pending |
 | 5 | Integration + Demo Prep | Pending |
 
 ## Current Position
 
-Phase: 2 (Detection Pipeline + Alerting) — EXECUTING
-Plan: 2 of 4
+Phase: 2 (Detection Pipeline + Alerting) — COMPLETE
+Plan: 4 of 4 (all plans complete)
 **Phase:** 02
-**Plan:** 02-02 complete, starting 02-03
-**Status:** Executing Phase 2
-**Progress:** [█████████░] 86%
+**Plan:** 02-04 complete — Phase 2 fully complete
+**Status:** Phase 2 Complete — ready for Phase 3 (Visualization + Reporting)
+**Progress:** [██████████] 100%
 
 ## Performance Metrics
 
@@ -62,6 +62,7 @@ Plan: 2 of 4
 | Phase 02 P01 | 2 | 2 tasks | 2 files |
 | Phase 02 P02 | 8 | 2 tasks | 2 files |
 | Phase 02 P03 | 68 | 2 tasks | 2 files |
+| Phase 02 P04 | 10 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -83,6 +84,9 @@ Plan: 2 of 4
 | build_event() timestamp uses datetime.fromtimestamp(ts).isoformat() | ISO 8601 with T separator — matches DET-05 spec; stdlib datetime, no extra dependency | Phase 2 |
 | attacker_mac and spoofed_mac both map to conflict['new_mac'] | DET-05 spec locks them as identical; two fields provide semantic distinction for consumers | Phase 2 |
 | JSONLLogger.log_event() flushes immediately after every write | ALT-04: file must be readable between events with cat/tail -f; flush() after write guarantees this | Phase 2 |
+| live.console.print() for conflict alerts inside Live context | Console().print() outside Live corrupts the display — live.console.print() is the correct pattern | Phase 2 |
+| build_arp_table_renderable/build_alerts_renderable are pure functions | Takes DataFrame/list, returns Panel — enables unit testing without a terminal or Live context | Phase 2 |
+| WSL smoke test (Task 3 checkpoint) deferred to Phase 5 demo day | No WSL root environment available during automated execution; auto-approved per plan instructions | Phase 2 |
 
 ### Todos
 
@@ -100,8 +104,8 @@ Plan: 2 of 4
 
 ## Session Continuity
 
-**Last session:** 2026-05-09T08:20:48.874Z
-**Stopped at:** Completed 02-03-PLAN.md (alerts.py format_alert_panel, 7 tests passing, 105 total)
+**Last session:** 2026-05-09T08:25:12.818Z
+**Stopped at:** Completed 02-04-PLAN.md (main.py full pipeline entry point, 17 tests, 122 total)
 **Next action:** Transition to Phase 02 — Detection Pipeline + Alerting
 **Context files:**
 

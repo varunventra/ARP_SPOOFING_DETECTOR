@@ -7,7 +7,7 @@
 ## Phases
 
 - [x] **Phase 1: Core Data Layer + Capture Skeleton** - Lay the foundation: threading model, ARP table, conflict logic, and capture loop — fully unit-testable without root or live network (completed 2026-05-09)
-- [ ] **Phase 2: Detection Pipeline + Alerting** - Wire capture into detection with baseline seeding, gratuitous ARP filtering, rich console alerts, JSONL logging, and graceful shutdown
+- [x] **Phase 2: Detection Pipeline + Alerting** - Wire capture into detection with baseline seeding, gratuitous ARP filtering, rich console alerts, JSONL logging, and graceful shutdown (completed 2026-05-09)
 - [ ] **Phase 3: Visualization + Reporting** - Generate networkx topology PNG on attack events and produce a pandas-based CSV summary report at session end
 - [ ] **Phase 4: Shell Integration** - Implement subprocess wrappers and three shell scripts (baseline_scan.sh, analyze_log.sh, capture_raw.sh) meeting course shell-scripting requirement
 - [ ] **Phase 5: Integration + Demo Prep** - Assemble main.py full startup sequence, build simulate_attack.py, record demo_capture.pcap fallback, and validate end-to-end demo flow
@@ -58,13 +58,13 @@ Plans:
 - Gratuitous ARP filter (`psrc == pdst` guard) must be applied before table lookup — adding it after detection logic risks shipping false-positive-prone code to the demo
 - DET-05 field set (timestamp, attacker MAC, victim IP, original MAC, spoofed MAC, attack type) is the contract between detector and logger/alert — locked here so both consumers use the same keys
 
-**Plans:** 3/4 plans executed
+**Plans:** 4/4 plans complete
 
 Plans:
 - [x] 02-01-PLAN.md � baseline.py: arp-scan subprocess wrapper seeds ARPTable (DET-02)
 - [x] 02-02-PLAN.md � logger.py: JSONLLogger class + build_event() DET-05 contract (DET-05, ALT-03, ALT-04)
 - [x] 02-03-PLAN.md � alerts.py: format_alert_panel() rich Panel builder (ALT-01)
-- [ ] 02-04-PLAN.md � main.py: full detection pipeline entry point + live dashboard (DET-03, DET-04, ALT-02, ALT-04)
+- [x] 02-04-PLAN.md � main.py: full detection pipeline entry point + live dashboard (DET-03, DET-04, ALT-02, ALT-04)
 
 ---
 
@@ -165,7 +165,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Core Data Layer + Capture Skeleton | 3/3 | Complete   | 2026-05-09 |
-| 2. Detection Pipeline + Alerting | 3/4 | In Progress|  |
+| 2. Detection Pipeline + Alerting | 4/4 | Complete   | 2026-05-09 |
 | 3. Visualization + Reporting | 0/? | Not started | - |
 | 4. Shell Integration | 0/? | Not started | - |
 | 5. Integration + Demo Prep | 0/? | Not started | - |
