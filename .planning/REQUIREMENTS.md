@@ -22,7 +22,7 @@
 
 ### Alert
 
-- [ ] **ALT-01**: Tool prints a colored console alert (using `rich`) immediately when a spoofing event is detected, including all DET-05 fields
+- [x] **ALT-01**: Tool prints a colored console alert (using `rich`) immediately when a spoofing event is detected, including all DET-05 fields
 - [ ] **ALT-02**: Tool displays a live-updating terminal dashboard (rich `Live` / `Table`) showing the current ARP table and recent alerts during monitoring
 - [x] **ALT-03**: Tool writes all alerts to a persistent JSONL log file (default: `arp_detector.log`) with one JSON object per event
 - [x] **ALT-04**: Tool handles graceful shutdown on Ctrl+C, flushing the log and printing a session summary
@@ -100,7 +100,7 @@
 | DET-03 | Phase 2 | Pending |
 | DET-04 | Phase 2 | Pending |
 | DET-05 | Phase 2 | Complete |
-| ALT-01 | Phase 2 | Pending |
+| ALT-01 | Phase 2 | Complete |
 | ALT-02 | Phase 2 | Pending |
 | ALT-03 | Phase 2 | Complete |
 | ALT-04 | Phase 2 | Complete |
