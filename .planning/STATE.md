@@ -4,14 +4,14 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 2
 status: executing
-stopped_at: Completed 02-01-PLAN.md (baseline.py arp-scan wrapper, 18 tests passing, 84 total)
-last_updated: "2026-05-09T08:14:42.949Z"
+stopped_at: Completed 02-02-PLAN.md (logger.py JSONLLogger + build_event, 14 tests passing, 98 total)
+last_updated: "2026-05-09T08:17:52.421Z"
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 7
-  completed_plans: 4
-  percent: 57
+  completed_plans: 5
+  percent: 71
 ---
 
 # Project State
@@ -44,9 +44,9 @@ See: .planning/PROJECT.md (updated 2026-05-05)
 Phase: 2 (Detection Pipeline + Alerting) — EXECUTING
 Plan: 2 of 4
 **Phase:** 02
-**Plan:** 02-01 complete, starting 02-02
+**Plan:** 02-02 complete, starting 02-03
 **Status:** Executing Phase 2
-**Progress:** [██████░░░░] 57%
+**Progress:** [███████░░░] 71%
 
 ## Performance Metrics
 
@@ -60,6 +60,7 @@ Plan: 2 of 4
 | Phase 01 P02 | 1 | 1 tasks | 2 files |
 | Phase 01 P03 | 8 | 2 tasks | 4 files |
 | Phase 02 P01 | 2 | 2 tasks | 2 files |
+| Phase 02 P02 | 8 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -78,6 +79,9 @@ Plan: 2 of 4
 | arp-scan output parsed via IPv4 regex on first tab-split field | Avoids fragile line-number assumptions; robust to arp-scan version changes in header/footer wording | Phase 2 |
 | load_baseline() returns int count, not list of entries | Caller only needs host count for logging; simpler interface | Phase 2 |
 | FileNotFoundError/TimeoutExpired in baseline: warn stderr, return 0 | Detector starts with empty (cold-start) baseline rather than crashing if arp-scan absent | Phase 2 |
+| build_event() timestamp uses datetime.fromtimestamp(ts).isoformat() | ISO 8601 with T separator — matches DET-05 spec; stdlib datetime, no extra dependency | Phase 2 |
+| attacker_mac and spoofed_mac both map to conflict['new_mac'] | DET-05 spec locks them as identical; two fields provide semantic distinction for consumers | Phase 2 |
+| JSONLLogger.log_event() flushes immediately after every write | ALT-04: file must be readable between events with cat/tail -f; flush() after write guarantees this | Phase 2 |
 
 ### Todos
 
@@ -95,8 +99,8 @@ Plan: 2 of 4
 
 ## Session Continuity
 
-**Last session:** 2026-05-09T08:14:42.945Z
-**Stopped at:** Completed 02-01-PLAN.md (baseline.py arp-scan wrapper, 18 tests passing, 84 total)
+**Last session:** 2026-05-09T08:17:52.417Z
+**Stopped at:** Completed 02-02-PLAN.md (logger.py JSONLLogger + build_event, 14 tests passing, 98 total)
 **Next action:** Transition to Phase 02 — Detection Pipeline + Alerting
 **Context files:**
 

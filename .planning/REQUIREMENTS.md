@@ -18,14 +18,14 @@
 - [x] **DET-02**: Tool bootstraps the ARP table from `arp-scan --localnet` output via subprocess at startup (baseline seeding)
 - [ ] **DET-03**: Tool detects IP-MAC conflicts: when an ARP reply maps an IP to a different MAC than the known table entry, it flags a spoofing event
 - [ ] **DET-04**: Tool filters out gratuitous ARPs (where `psrc == pdst`) to avoid false positives during normal boot/DHCP cycles
-- [ ] **DET-05**: Tool records attack events with: timestamp, attacker MAC, victim IP, original (known) MAC, spoofed MAC, and attack type label
+- [x] **DET-05**: Tool records attack events with: timestamp, attacker MAC, victim IP, original (known) MAC, spoofed MAC, and attack type label
 
 ### Alert
 
 - [ ] **ALT-01**: Tool prints a colored console alert (using `rich`) immediately when a spoofing event is detected, including all DET-05 fields
 - [ ] **ALT-02**: Tool displays a live-updating terminal dashboard (rich `Live` / `Table`) showing the current ARP table and recent alerts during monitoring
-- [ ] **ALT-03**: Tool writes all alerts to a persistent JSONL log file (default: `arp_detector.log`) with one JSON object per event
-- [ ] **ALT-04**: Tool handles graceful shutdown on Ctrl+C, flushing the log and printing a session summary
+- [x] **ALT-03**: Tool writes all alerts to a persistent JSONL log file (default: `arp_detector.log`) with one JSON object per event
+- [x] **ALT-04**: Tool handles graceful shutdown on Ctrl+C, flushing the log and printing a session summary
 
 ### Visualization
 
@@ -99,11 +99,11 @@
 | DET-02 | Phase 2 | Complete |
 | DET-03 | Phase 2 | Pending |
 | DET-04 | Phase 2 | Pending |
-| DET-05 | Phase 2 | Pending |
+| DET-05 | Phase 2 | Complete |
 | ALT-01 | Phase 2 | Pending |
 | ALT-02 | Phase 2 | Pending |
-| ALT-03 | Phase 2 | Pending |
-| ALT-04 | Phase 2 | Pending |
+| ALT-03 | Phase 2 | Complete |
+| ALT-04 | Phase 2 | Complete |
 | VIZ-01 | Phase 3 | Pending |
 | VIZ-02 | Phase 3 | Pending |
 | VIZ-03 | Phase 3 | Pending |
