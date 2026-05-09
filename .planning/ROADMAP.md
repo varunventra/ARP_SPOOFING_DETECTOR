@@ -7,7 +7,7 @@
 ## Phases
 
 - [x] **Phase 1: Core Data Layer + Capture Skeleton** - Lay the foundation: threading model, ARP table, conflict logic, and capture loop — fully unit-testable without root or live network (completed 2026-05-09)
-- [x] **Phase 2: Detection Pipeline + Alerting** - Wire capture into detection with baseline seeding, gratuitous ARP filtering, rich console alerts, JSONL logging, and graceful shutdown (completed 2026-05-09)
+- [x] **Phase 2: Detection Pipeline + Alerting** - Wire capture into detection with baseline seeding, gratuitous ARP filtering, rich console alerts, JSONL logging, and graceful shutdown (completed 2026-05-09)
 - [ ] **Phase 3: Visualization + Reporting** - Generate networkx topology PNG on attack events and produce a pandas-based CSV summary report at session end
 - [ ] **Phase 4: Shell Integration** - Implement subprocess wrappers and three shell scripts (baseline_scan.sh, analyze_log.sh, capture_raw.sh) meeting course shell-scripting requirement
 - [ ] **Phase 5: Integration + Demo Prep** - Assemble main.py full startup sequence, build simulate_attack.py, record demo_capture.pcap fallback, and validate end-to-end demo flow
@@ -61,10 +61,10 @@ Plans:
 **Plans:** 4/4 plans complete
 
 Plans:
-- [x] 02-01-PLAN.md � baseline.py: arp-scan subprocess wrapper seeds ARPTable (DET-02)
-- [x] 02-02-PLAN.md � logger.py: JSONLLogger class + build_event() DET-05 contract (DET-05, ALT-03, ALT-04)
-- [x] 02-03-PLAN.md � alerts.py: format_alert_panel() rich Panel builder (ALT-01)
-- [x] 02-04-PLAN.md � main.py: full detection pipeline entry point + live dashboard (DET-03, DET-04, ALT-02, ALT-04)
+- [x] 02-01-PLAN.md — baseline.py: arp-scan subprocess wrapper seeds ARPTable (DET-02)
+- [x] 02-02-PLAN.md — logger.py: JSONLLogger class + build_event() DET-05 contract (DET-05, ALT-03, ALT-04)
+- [x] 02-03-PLAN.md — alerts.py: format_alert_panel() rich Panel builder (ALT-01)
+- [x] 02-04-PLAN.md — main.py: full detection pipeline entry point + live dashboard (DET-03, DET-04, ALT-02, ALT-04)
 
 ---
 
@@ -85,7 +85,12 @@ Plans:
 - Bipartite layout (IP nodes left, MAC nodes right) chosen over spring layout — cleaner for small networks and deterministic across renders
 - Visualization is off by default (`--visualize` flag required) to avoid WSL2 `$DISPLAY` failures during demo setup
 
-**Plans:** TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — visualizer.py: implement draw_topology() bipartite PNG generator + test_visualizer.py (VIZ-01, VIZ-02, VIZ-03)
+- [ ] 03-02-PLAN.md — reporter.py: new module generate_report() pandas CSV writer + test_reporter.py (LOG-01, LOG-02)
+- [ ] 03-03-PLAN.md — wiring: --visualize/--report/--logfile args in capture.py + call sites in main.py (VIZ-04, LOG-03)
 
 ---
 
@@ -166,6 +171,6 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Core Data Layer + Capture Skeleton | 3/3 | Complete   | 2026-05-09 |
 | 2. Detection Pipeline + Alerting | 4/4 | Complete    | 2026-05-09 |
-| 3. Visualization + Reporting | 0/? | Not started | - |
+| 3. Visualization + Reporting | 0/3 | Not started | - |
 | 4. Shell Integration | 0/? | Not started | - |
 | 5. Integration + Demo Prep | 0/? | Not started | - |
