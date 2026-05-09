@@ -24,18 +24,22 @@ from scapy.all import rdpcap, ARP, Ether
 # ---------------------------------------------------------------------------
 
 class TestCheckRoot:
-    """check_root() must exit(1) when not root, pass silently when root."""
+    """check_root() must exit(1) when not root, pass silently when root.
+
+    Patches target arp_detector.capture.os.geteuid with create=True so that
+    tests run on both POSIX (Linux/WSL) and non-POSIX (Windows) platforms.
+    """
 
     def test_check_root_exits_when_not_root(self):
         from arp_detector.capture import check_root
-        with patch("os.geteuid", return_value=1000):
+        with patch("arp_detector.capture.os.geteuid", return_value=1000, create=True):
             with pytest.raises(SystemExit) as exc_info:
                 check_root()
         assert exc_info.value.code == 1
 
     def test_check_root_prints_error_message_when_not_root(self, capsys):
         from arp_detector.capture import check_root
-        with patch("os.geteuid", return_value=1000):
+        with patch("arp_detector.capture.os.geteuid", return_value=1000, create=True):
             with pytest.raises(SystemExit):
                 check_root()
         captured = capsys.readouterr()
@@ -46,7 +50,7 @@ class TestCheckRoot:
 
     def test_check_root_does_not_exit_when_root(self):
         from arp_detector.capture import check_root
-        with patch("os.geteuid", return_value=0):
+        with patch("arp_detector.capture.os.geteuid", return_value=0, create=True):
             check_root()  # must not raise SystemExit
 
 
