@@ -58,7 +58,13 @@ Plans:
 - Gratuitous ARP filter (`psrc == pdst` guard) must be applied before table lookup â€” adding it after detection logic risks shipping false-positive-prone code to the demo
 - DET-05 field set (timestamp, attacker MAC, victim IP, original MAC, spoofed MAC, attack type) is the contract between detector and logger/alert â€” locked here so both consumers use the same keys
 
-**Plans:** TBD
+**Plans:** 4 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — baseline.py: arp-scan subprocess wrapper seeds ARPTable (DET-02)
+- [ ] 02-02-PLAN.md — logger.py: JSONLLogger class + build_event() DET-05 contract (DET-05, ALT-03, ALT-04)
+- [ ] 02-03-PLAN.md — alerts.py: format_alert_panel() rich Panel builder (ALT-01)
+- [ ] 02-04-PLAN.md — main.py: full detection pipeline entry point + live dashboard (DET-03, DET-04, ALT-02, ALT-04)
 
 ---
 
