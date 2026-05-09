@@ -165,7 +165,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Core Data Layer + Capture Skeleton | 3/3 | Complete   | 2026-05-09 |
-| 2. Detection Pipeline + Alerting | 4/4 | Complete   | 2026-05-09 |
+| 2. Detection Pipeline + Alerting | 4/4 | Complete    | 2026-05-09 |
 | 3. Visualization + Reporting | 0/? | Not started | - |
 | 4. Shell Integration | 0/? | Not started | - |
 | 5. Integration + Demo Prep | 0/? | Not started | - |
