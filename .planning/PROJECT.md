@@ -12,7 +12,11 @@ Real-time ARP spoofing detection with immediate console alerts — the tool must
 
 ### Validated
 
-(None yet — ship to validate)
+- [x] Capture ARP packets via scapy AsyncSniffer with store=False — validated in Phase 1 (CAP-01)
+- [x] In-memory IP→MAC pandas DataFrame with conflict detection — validated in Phase 1 (DET-01)
+- [x] Root privilege check at startup (os.geteuid) — validated in Phase 1 (CAP-03)
+- [x] --iface CLI arg + auto-detect via get_if_list() — validated in Phase 1 (CAP-02)
+- [x] Filter to ARP op=2 replies only — validated in Phase 1 (CAP-04)
 
 ### Active
 
@@ -78,4 +82,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-05 after initialization*
+*Last updated: 2026-05-09 — Phase 1 complete (Core Data Layer + Capture Skeleton)*
