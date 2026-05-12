@@ -36,8 +36,8 @@
 
 ### Logging & Reporting
 
-- [ ] **LOG-01**: At session end (or on `--report` flag), tool generates a pandas-based summary report: total packets seen, attacks detected, unique attacker MACs, timeline of events
-- [ ] **LOG-02**: Tool saves summary report as a CSV file (`attack_report.csv`) using pandas `to_csv()`
+- [x] **LOG-01**: At session end (or on `--report` flag), tool generates a pandas-based summary report: total packets seen, attacks detected, unique attacker MACs, timeline of events
+- [x] **LOG-02**: Tool saves summary report as a CSV file (`attack_report.csv`) using pandas `to_csv()`
 - [ ] **LOG-03**: Tool supports `--logfile <path>` argument to specify a custom log file location
 
 ### Shell Integration
@@ -108,8 +108,8 @@
 | VIZ-02 | Phase 3 | Complete |
 | VIZ-03 | Phase 3 | Complete |
 | VIZ-04 | Phase 3 | Pending |
-| LOG-01 | Phase 3 | Pending |
-| LOG-02 | Phase 3 | Pending |
+| LOG-01 | Phase 3 | Complete |
+| LOG-02 | Phase 3 | Complete |
 | LOG-03 | Phase 3 | Pending |
 | SHL-01 | Phase 4 | Pending |
 | SHL-02 | Phase 4 | Pending |
