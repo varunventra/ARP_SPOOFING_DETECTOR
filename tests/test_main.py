@@ -7,6 +7,7 @@ Tests cover:
   - build_layout()               — Layout with 'arp_table' and 'alerts' sections
   - Conflict path wiring         — log_event + format_alert_panel called on conflict
 """
+from argparse import Namespace
 from io import StringIO
 from unittest.mock import MagicMock, patch
 
@@ -258,3 +259,190 @@ class TestConflictPathCallsLogEvent:
             mock_logger.log_event(build_event(conflict))
 
         mock_logger.log_event.assert_not_called()
+
+
+# ---------------------------------------------------------------------------
+# TestMainWiring — main() integration tests for new CLI args and call sites
+# ---------------------------------------------------------------------------
+
+def _make_mock_args(
+    iface="eth0",
+    visualize=False,
+    report="attack_report.csv",
+    logfile="arp_detector.log",
+):
+    """Build a Namespace mimicking parse_cli_args() return value."""
+    return Namespace(iface=iface, visualize=visualize, report=report, logfile=logfile)
+
+
+def _build_main_patches(args, conflict_pkt=None, raise_keyboard_interrupt=True):
+    """
+    Return a dict of patch kwargs for the full main() mock stack.
+
+    conflict_pkt: if provided, packet_queue.get() yields this dict once then
+                  raises KeyboardInterrupt (simulating one packet + Ctrl+C).
+    raise_keyboard_interrupt: if True, queue.get side_effect ends with KeyboardInterrupt.
+    """
+    import queue as _queue
+
+    mock_arp_table = MagicMock()
+    empty_df = pd.DataFrame(columns=["mac", "first_seen", "last_seen"])
+    empty_df.index.name = "ip"
+    one_row_df = pd.DataFrame(
+        [{"mac": "aa:bb:cc:dd:ee:ff", "first_seen": 1000.0, "last_seen": 1001.0}],
+        index=pd.Index(["10.0.0.1"], name="ip"),
+    )
+    mock_arp_table.get_all.return_value = one_row_df
+
+    if conflict_pkt is not None:
+        # First call returns a packet, subsequent calls raise KeyboardInterrupt
+        side_effects = [conflict_pkt, KeyboardInterrupt()]
+        mock_arp_table.get_all.return_value = one_row_df
+    else:
+        # Only call raises KeyboardInterrupt (empty loop)
+        side_effects = [KeyboardInterrupt()]
+
+    return {
+        "mock_args": args,
+        "mock_arp_table": mock_arp_table,
+        "side_effects": side_effects,
+        "one_row_df": one_row_df,
+    }
+
+
+class TestMainWiring:
+    """Tests for new main() wiring: logfile arg, draw_topology, generate_report."""
+
+    def _run_main_with_mocks(
+        self,
+        args,
+        conflict_pkt=None,
+        mock_draw_topology=None,
+        mock_generate_report=None,
+    ):
+        """
+        Run main() with a full mock stack. Returns (mock_jsonl_logger_cls, mock_draw_topology, mock_generate_report).
+
+        conflict_pkt: if provided, one conflict packet dict is placed on the queue before
+                      KeyboardInterrupt is raised.
+        """
+        import queue as _queue
+
+        mock_arp_table_inst = MagicMock()
+        empty_df = pd.DataFrame(columns=["mac", "first_seen", "last_seen"])
+        empty_df.index.name = "ip"
+        one_row_df = pd.DataFrame(
+            [{"mac": "aa:bb:cc:dd:ee:ff", "first_seen": 1000.0, "last_seen": 1001.0}],
+            index=pd.Index(["10.0.0.1"], name="ip"),
+        )
+        mock_arp_table_inst.get_all.return_value = one_row_df
+
+        # Build the packet-queue side_effect sequence
+        if conflict_pkt is not None:
+            queue_side_effects = [conflict_pkt, KeyboardInterrupt()]
+        else:
+            queue_side_effects = [KeyboardInterrupt()]
+
+        mock_queue_inst = MagicMock()
+        mock_queue_inst.get.side_effect = queue_side_effects
+
+        mock_sniffer = MagicMock()
+        mock_logger_inst = MagicMock()
+        mock_logger_cls = MagicMock(return_value=mock_logger_inst)
+
+        if mock_draw_topology is None:
+            mock_draw_topology = MagicMock()
+        if mock_generate_report is None:
+            mock_generate_report = MagicMock(return_value=(MagicMock(), {}))
+
+        # check_packet returns a conflict dict when conflict_pkt provided, else None
+        if conflict_pkt is not None:
+            conflict_result = {
+                "victim_ip": "10.0.0.1",
+                "attacker_mac": "bb:bb:bb:bb:bb:bb",
+                "original_mac": "aa:aa:aa:aa:aa:aa",
+                "spoofed_mac": "bb:bb:bb:bb:bb:bb",
+            }
+            mock_check_packet = MagicMock(return_value=conflict_result)
+        else:
+            mock_check_packet = MagicMock(return_value=None)
+
+        mock_build_event = MagicMock(return_value={
+            "timestamp": "2026-01-01T00:00:00",
+            "attacker_mac": "bb:bb:bb:bb:bb:bb",
+            "victim_ip": "10.0.0.1",
+            "original_mac": "aa:aa:aa:aa:aa:aa",
+            "spoofed_mac": "bb:bb:bb:bb:bb:bb",
+            "attack_type": "ARP_SPOOFING",
+        })
+
+        with patch("arp_detector.main.check_root"), \
+             patch("arp_detector.main.parse_cli_args", return_value=args), \
+             patch("arp_detector.main.get_default_iface", return_value="eth0"), \
+             patch("arp_detector.main.ARPTable", return_value=mock_arp_table_inst), \
+             patch("arp_detector.main.JSONLLogger", mock_logger_cls), \
+             patch("arp_detector.main.load_baseline", return_value=0), \
+             patch("arp_detector.main.start_capture", return_value=mock_sniffer), \
+             patch("arp_detector.main.queue.Queue", return_value=mock_queue_inst), \
+             patch("arp_detector.main.check_packet", mock_check_packet), \
+             patch("arp_detector.main.build_event", mock_build_event), \
+             patch("arp_detector.main.format_alert_panel", return_value=MagicMock()), \
+             patch("arp_detector.main.Live"), \
+             patch("arp_detector.main.Console"), \
+             patch("arp_detector.main.draw_topology", mock_draw_topology), \
+             patch("arp_detector.main.generate_report", mock_generate_report), \
+             patch("sys.exit"):
+            from arp_detector.main import main
+            try:
+                main()
+            except (KeyboardInterrupt, SystemExit):
+                pass
+
+        return mock_logger_cls, mock_draw_topology, mock_generate_report
+
+    def test_jsonl_logger_receives_logfile_arg(self):
+        """JSONLLogger must be instantiated with args.logfile path."""
+        args = _make_mock_args(logfile="/tmp/test.log")
+        mock_logger_cls, _, _ = self._run_main_with_mocks(args)
+        mock_logger_cls.assert_called_once_with("/tmp/test.log")
+
+    def test_draw_topology_called_on_conflict_when_visualize(self):
+        """draw_topology() must be called when args.visualize is True and a conflict occurs."""
+        args = _make_mock_args(visualize=True)
+        conflict_pkt = {
+            "src_ip": "10.0.0.1",
+            "src_mac": "bb:bb:bb:bb:bb:bb",
+            "dst_ip": "10.0.0.2",
+            "op": 2,
+            "timestamp": 1000.0,
+        }
+        mock_draw = MagicMock()
+        _, mock_draw_topology, _ = self._run_main_with_mocks(
+            args, conflict_pkt=conflict_pkt, mock_draw_topology=mock_draw
+        )
+        assert mock_draw_topology.called, "draw_topology() was not called despite --visualize and conflict"
+
+    def test_draw_topology_not_called_when_no_visualize(self):
+        """draw_topology() must NOT be called when args.visualize is False."""
+        args = _make_mock_args(visualize=False)
+        conflict_pkt = {
+            "src_ip": "10.0.0.1",
+            "src_mac": "bb:bb:bb:bb:bb:bb",
+            "dst_ip": "10.0.0.2",
+            "op": 2,
+            "timestamp": 1000.0,
+        }
+        mock_draw = MagicMock()
+        _, mock_draw_topology, _ = self._run_main_with_mocks(
+            args, conflict_pkt=conflict_pkt, mock_draw_topology=mock_draw
+        )
+        mock_draw_topology.assert_not_called()
+
+    def test_generate_report_called_on_shutdown(self):
+        """generate_report() must be called at shutdown regardless of --visualize."""
+        args = _make_mock_args(visualize=False)
+        mock_report = MagicMock(return_value=(MagicMock(), {}))
+        _, _, mock_generate_report = self._run_main_with_mocks(
+            args, mock_generate_report=mock_report
+        )
+        assert mock_generate_report.called, "generate_report() was not called on shutdown"

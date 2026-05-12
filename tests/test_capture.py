@@ -114,6 +114,42 @@ class TestParseCLIArgs:
             args = parse_cli_args()
         assert args.iface == "enp0s3"
 
+    def test_visualize_flag_default_false(self):
+        from arp_detector.capture import parse_cli_args
+        with patch("sys.argv", ["capture.py"]):
+            args = parse_cli_args()
+        assert args.visualize is False
+
+    def test_visualize_flag_present(self):
+        from arp_detector.capture import parse_cli_args
+        with patch("sys.argv", ["capture.py", "--visualize"]):
+            args = parse_cli_args()
+        assert args.visualize is True
+
+    def test_logfile_arg_default(self):
+        from arp_detector.capture import parse_cli_args
+        with patch("sys.argv", ["capture.py"]):
+            args = parse_cli_args()
+        assert args.logfile == "arp_detector.log"
+
+    def test_logfile_arg_custom(self):
+        from arp_detector.capture import parse_cli_args
+        with patch("sys.argv", ["capture.py", "--logfile", "/tmp/custom.log"]):
+            args = parse_cli_args()
+        assert args.logfile == "/tmp/custom.log"
+
+    def test_report_arg_default(self):
+        from arp_detector.capture import parse_cli_args
+        with patch("sys.argv", ["capture.py"]):
+            args = parse_cli_args()
+        assert args.report == "attack_report.csv"
+
+    def test_report_arg_custom(self):
+        from arp_detector.capture import parse_cli_args
+        with patch("sys.argv", ["capture.py", "--report", "/tmp/rep.csv"]):
+            args = parse_cli_args()
+        assert args.report == "/tmp/rep.csv"
+
 
 # ---------------------------------------------------------------------------
 # CAP-01 + CAP-04: Callback filtering and Queue delivery
