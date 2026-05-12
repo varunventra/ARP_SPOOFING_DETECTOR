@@ -109,7 +109,11 @@ Plans:
 **Key Decisions:**
 - `shell=True` is prohibited in all subprocess calls — this is both a security constraint and a testability constraint; locked here before any subprocess code is written
 
-**Plans:** TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Three shell scripts (baseline_scan.sh, analyze_log.sh, capture_raw.sh) + fixture files (SHL-01, SHL-02, SHL-03)
+- [ ] 04-02-PLAN.md — test_shell_scripts.py: fixture-based script tests + SHL-04 subprocess compliance verification
 
 ---
 
@@ -172,5 +176,5 @@ Plans:
 | 1. Core Data Layer + Capture Skeleton | 3/3 | Complete   | 2026-05-09 |
 | 2. Detection Pipeline + Alerting | 4/4 | Complete    | 2026-05-09 |
 | 3. Visualization + Reporting | 3/3 | Complete    | 2026-05-12 |
-| 4. Shell Integration | 0/? | Not started | - |
+| 4. Shell Integration | 0/2 | Not started | - |
 | 5. Integration + Demo Prep | 0/? | Not started | - |
