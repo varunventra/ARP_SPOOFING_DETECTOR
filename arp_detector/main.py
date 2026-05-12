@@ -42,6 +42,8 @@ from arp_detector.baseline import load_baseline
 from arp_detector.capture import check_root, get_default_iface, parse_cli_args, start_capture
 from arp_detector.detector import check_packet
 from arp_detector.logger import JSONLLogger, build_event
+from arp_detector.reporter import generate_report
+from arp_detector.visualizer import draw_topology
 
 __all__ = ["main", "build_layout", "build_arp_table_renderable", "build_alerts_renderable"]
 
@@ -147,7 +149,7 @@ def main() -> None:
     arp_table = ARPTable()
 
     # Step 4 — open logger before any events can occur
-    logger = JSONLLogger()  # default path "arp_detector.log"
+    logger = JSONLLogger(args.logfile)
 
     # Step 5 — seed table with baseline (must happen BEFORE start_capture)
     baseline_count = load_baseline(arp_table)
@@ -166,6 +168,8 @@ def main() -> None:
     attacks_detected: int = 0
     attacker_macs: set = set()
     recent_alerts: list = []
+    spoofed_ips_set: set = set()
+    events_list: list = []
 
     # Seed the initial layout with empty renderables
     layout["arp_table"].update(build_arp_table_renderable(arp_table.get_all()))
@@ -195,6 +199,11 @@ def main() -> None:
                     )
                     # Log to file
                     logger.log_event(event)
+                    # Track for report and visualization
+                    spoofed_ips_set.add(event["victim_ip"])
+                    events_list.append(event)
+                    if args.visualize:
+                        draw_topology(arp_table.get_all(), spoofed_ips=spoofed_ips_set)
                     # Print alert panel above the Live display (critical: use live.console)
                     live.console.print(format_alert_panel(event))
 
@@ -208,6 +217,9 @@ def main() -> None:
     # Step 8 — graceful shutdown
     sniffer.stop()
     logger.close()
+    generate_report(events_list, total_packets=packets_seen, output_path=args.report)
+    if args.visualize and len(arp_table.get_all()) > 0:
+        draw_topology(arp_table.get_all(), spoofed_ips=spoofed_ips_set)
 
     console.print("\n[bold]Session Summary[/bold]")
     console.print(f"  Packets seen:         {packets_seen}")

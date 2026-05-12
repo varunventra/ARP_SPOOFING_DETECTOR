@@ -94,6 +94,24 @@ def parse_cli_args() -> argparse.Namespace:
             "If omitted, the first non-loopback interface is used."
         ),
     )
+    parser.add_argument(
+        "--visualize",
+        action="store_true",
+        default=False,
+        help="Generate topology.png on each spoofing event (off by default).",
+    )
+    parser.add_argument(
+        "--report",
+        default="attack_report.csv",
+        metavar="PATH",
+        help="Path for CSV summary report (written at session end).",
+    )
+    parser.add_argument(
+        "--logfile",
+        default="arp_detector.log",
+        metavar="PATH",
+        help="Path for JSONL log file (default: arp_detector.log).",
+    )
     return parser.parse_args()
 
 
