@@ -1,0 +1,7 @@
+Interface: eth0, type: EN10MB, MAC: aa:bb:cc:00:00:01, IPv4: 192.168.1.1
+Starting arp-scan 1.9.7 with 256 hosts (https://github.com/royhills/arp-scan)
+192.168.1.1	aa:bb:cc:dd:ee:01	Cisco Systems, Inc
+192.168.1.5	aa:bb:cc:dd:ee:05	(Unknown: locally administered)
+192.168.1.10	aa:bb:cc:dd:ee:0a	(Unknown: locally administered)
+
+3 packets received by filter, 0 packets dropped by kernel

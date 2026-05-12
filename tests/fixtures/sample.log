@@ -1,0 +1,2 @@
+{"timestamp": "2026-05-12T10:00:01.123456", "attacker_mac": "de:ad:be:ef:00:01", "victim_ip": "192.168.1.1", "original_mac": "aa:bb:cc:dd:ee:01", "spoofed_mac": "de:ad:be:ef:00:01", "attack_type": "arp_spoofing"}
+{"timestamp": "2026-05-12T10:00:05.654321", "attacker_mac": "de:ad:be:ef:00:02", "victim_ip": "192.168.1.5", "original_mac": "aa:bb:cc:dd:ee:05", "spoofed_mac": "de:ad:be:ef:00:02", "attack_type": "arp_spoofing"}
