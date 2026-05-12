@@ -29,9 +29,9 @@
 
 ### Visualization
 
-- [ ] **VIZ-01**: Tool generates a networkx bipartite graph (IP nodes ↔ MAC nodes) rendered to a PNG file (`topology.png`) using matplotlib Agg backend
-- [ ] **VIZ-02**: Graph highlights spoofed nodes in red and legitimate nodes in green
-- [ ] **VIZ-03**: Tool regenerates and overwrites `topology.png` each time a new spoofing event is detected
+- [x] **VIZ-01**: Tool generates a networkx bipartite graph (IP nodes ↔ MAC nodes) rendered to a PNG file (`topology.png`) using matplotlib Agg backend
+- [x] **VIZ-02**: Graph highlights spoofed nodes in red and legitimate nodes in green
+- [x] **VIZ-03**: Tool regenerates and overwrites `topology.png` each time a new spoofing event is detected
 - [ ] **VIZ-04**: Tool accepts `--visualize` flag to enable PNG generation (off by default to avoid WSL display issues)
 
 ### Logging & Reporting
@@ -104,9 +104,9 @@
 | ALT-02 | Phase 2 | Complete |
 | ALT-03 | Phase 2 | Complete |
 | ALT-04 | Phase 2 | Complete |
-| VIZ-01 | Phase 3 | Pending |
-| VIZ-02 | Phase 3 | Pending |
-| VIZ-03 | Phase 3 | Pending |
+| VIZ-01 | Phase 3 | Complete |
+| VIZ-02 | Phase 3 | Complete |
+| VIZ-03 | Phase 3 | Complete |
 | VIZ-04 | Phase 3 | Pending |
 | LOG-01 | Phase 3 | Pending |
 | LOG-02 | Phase 3 | Pending |
