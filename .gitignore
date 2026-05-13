@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Generated output files (created at runtime)
+arp_detector.log
+attack_report.csv
+topology.png
+*.pcap
+!demo_capture.pcap
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude / GSD internals
+.claude/
+.planning/
