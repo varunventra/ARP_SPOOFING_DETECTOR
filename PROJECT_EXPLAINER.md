@@ -43,6 +43,8 @@ Every device on a network has an IP address and a MAC address. ARP is the protoc
 ## Member 1 — Detection Logic
 **Files:** `arp_table.py`, `detector.py`
 
+**Role:** Built the core detection engine — the brain of the tool.
+
 > "The ARP table is a pandas DataFrame — rows are IPs, columns are MAC and timestamps. When a packet comes in, detector.py checks it against the table with three rules: ignore ARP requests, ignore gratuitous ARP (devices announcing themselves on boot — not an attack), and if the IP exists with a different MAC, that's a conflict. One function, three rules, returns the attack record."
 
 **If asked why gratuitous ARP is filtered:**
@@ -50,8 +52,10 @@ Every device on a network has an IP address and a MAC address. ARP is the protoc
 
 ---
 
-## Member 2 — Capture and Baseline
+## Member 2 — Packet Capture and Baseline
 **Files:** `capture.py`, `baseline.py`, `scripts/baseline_scan.sh`
+
+**Role:** Built the network listener and the startup scan that learns real MACs before monitoring begins.
 
 > "capture.py uses scapy's AsyncSniffer — it runs in a background thread and pushes packets onto a Queue. The main thread reads from that Queue and does all the processing. This means no thread locks needed. Before the sniffer starts, baseline.py calls arp-scan via subprocess to learn every real IP-MAC pair on the network. baseline_scan.sh is the standalone shell version — arp-scan piped through awk to strip headers and output clean IP-tab-MAC lines."
 
@@ -63,6 +67,8 @@ Every device on a network has an IP address and a MAC address. ARP is the protoc
 ## Member 3 — Alerts and Visualization
 **Files:** `alerts.py`, `visualizer.py`, `main.py`
 
+**Role:** Built what you see on screen — the red alerts, the live table, and the topology map.
+
 > "alerts.py formats a red panel using the rich library — shows victim IP, attacker MAC, real MAC, and timestamp. main.py is the entry point that wires everything together: root check, baseline, sniffer, live dashboard loop, graceful Ctrl+C shutdown. visualizer.py builds a bipartite graph with networkx — IPs on the left, MACs on the right. Spoofed nodes go red. It saves to topology.png using matplotlib's Agg backend so it works in a headless terminal with no display."
 
 **If asked what bipartite means:**
@@ -70,10 +76,24 @@ Every device on a network has an IP address and a MAC address. ARP is the protoc
 
 ---
 
-## Member 4 — Logging, Reporting, Shell Tools
-**Files:** `logger.py`, `reporter.py`, `scripts/analyze_log.sh`, `scripts/capture_raw.sh`, `simulate_attack.py`
+## Member 4 — Logging, Reporting, and Shell Tools
+**Files:** `logger.py`, `reporter.py`, `scripts/analyze_log.sh`, `scripts/capture_raw.sh`
 
-> "logger.py writes one JSON object per line to arp_detector.log — JSONL format. Flushed immediately on every write so you can tail -f it live. reporter.py generates a pandas CSV at shutdown — that's our pandas data analysis requirement. analyze_log.sh uses grep and awk to count attacks, list attacker MACs, and print a timeline with no Python. capture_raw.sh uses tcpdump to record ARP traffic to a pcap. simulate_attack.py uses scapy's sendp() to send forged ARP replies — that's how we trigger the live demo."
+**Role:** Built the persistent logging, the CSV report, and the shell scripts that analyze the log after an attack.
+
+> "logger.py writes one JSON object per line to arp_detector.log — JSONL format. Flushed immediately on every write so you can tail -f it live. reporter.py generates a pandas CSV at shutdown — that's our pandas data analysis requirement. analyze_log.sh uses grep and awk to count attacks, list attacker MACs, and print a timeline with no Python. capture_raw.sh uses tcpdump to record ARP traffic to a pcap file."
 
 **If asked why JSONL not a database:**
 > "The spec says no database. JSONL is structured, appendable, and readable by both Python and shell tools with just grep."
+
+---
+
+## Member 5 — Attack Simulation and Testing
+**Files:** `simulate_attack.py`, `tests/`
+
+**Role:** Built the tool that simulates an attack for the demo, and wrote the test suite that verifies everything works.
+
+> "simulate_attack.py uses scapy's sendp() to send forged ARP replies — it crafts a fake packet claiming that a real IP belongs to a different MAC, which is exactly what an attacker would do. That's what triggers the red alerts in the demo. The test suite has 187 tests covering the detector logic, shell scripts, logging, and the demo flow — so we could verify nothing was broken as we built each part."
+
+**If asked why sendp() not send():**
+> "sendp() works at Layer 2 — it sends raw Ethernet frames. ARP lives at Layer 2, so that's the right level. send() is Layer 3 and would go through the OS network stack instead."
