@@ -1,66 +1,61 @@
-# Demo Guide — 2 Minutes
+# Demo Guide
 
 ## Setup (Do This Before Walking In)
 
-Open two WSL terminals side by side. In both, cd to the project folder.
+Open **two WSL terminals** side by side. In both, run:
+```bash
+cd /mnt/c/Users/varun/OneDrive/Desktop/teamproject
+```
 
 ---
 
-## The Demo
+## Step 1 — Start the Detector
 
-**Terminal 1 — start the detector:**
+**Terminal 1:**
 ```bash
 sudo python3 -m arp_detector.main --iface eth0 --visualize
 ```
 
-Point at the live dashboard that appears.
+Wait until you see `172.26.160.1` appear in the ARP table with its real MAC.
 
-> "This is our ARP spoofing detector running live. It already ran arp-scan at startup to learn every real IP-to-MAC mapping on the network — that's the baseline."
+**Say:**
+> "This is our ARP spoofing detector running live. It's listening to all ARP traffic on the network and building a table of which IP belongs to which MAC address."
 
 ---
 
-**Terminal 2 — trigger the attack:**
+## Step 2 — Trigger the Attack
+
+**Terminal 2:**
 ```bash
-sudo python3 simulate_attack.py --iface eth0 --target-ip 192.168.1.1
+sudo python3 simulate_attack.py --iface eth0 --target-ip 172.26.160.1
 ```
 
-A red alert panel immediately appears in Terminal 1.
+Red alerts will immediately appear in Terminal 1.
 
-> "That's our attack simulator sending forged ARP packets. The detector caught it instantly — it saw that 192.168.1.1 suddenly claimed a different MAC address, which is the exact signature of ARP spoofing. You can see the victim IP, the attacker's MAC, and the real MAC it should be."
+**Say:**
+> "This simulates an attacker sending fake ARP packets claiming that IP 172.26.160.1 belongs to a different MAC address. The detector catches it instantly — you can see the alerts firing in real time with the timestamp, the victim IP, and the attacker's MAC."
 
 ---
 
-**Ctrl+C in Terminal 1, then:**
+## Step 3 — Show the Log
+
+Press **Ctrl+C** in Terminal 1, then run:
 ```bash
 bash scripts/analyze_log.sh arp_detector.log
 ```
 
-> "On shutdown it saves a CSV report and a network topology PNG. This shell script uses grep and awk to parse the log — no Python. Shows total attacks, attacker MACs, and a timeline."
+**Say:**
+> "On shutdown it saves everything to a log file. This shell script uses grep and awk to parse it and give a summary — total attacks, the attacker's MAC, and a full timeline. No Python needed for this part."
 
 ---
 
-Done. That's the whole demo.
+## Done.
 
 ---
 
-## If Something Breaks
+## If Something Goes Wrong
 
-Run this instead — no root, no live network needed:
-
-```bash
-python3 -c "
-from scapy.all import rdpcap, ARP
-from arp_detector.arp_table import ARPTable
-from arp_detector.detector import check_packet
-from arp_detector.logger import build_event
-packets = rdpcap('demo_capture.pcap')
-table = ARPTable()
-for p in packets:
-    if ARP in p:
-        d = {'op': p[ARP].op, 'src_ip': p[ARP].psrc, 'src_mac': p[ARP].hwsrc, 'dst_ip': p[ARP].pdst}
-        c = check_packet(d, table)
-        if c: print('ATTACK:', build_event(c)['victim_ip'], '<-', build_event(c)['attacker_mac'])
-"
-```
-
-> "This replays our pre-recorded attack pcap file and produces the same detections offline."
+If no alerts appear — you ran the attack before the detector was ready. Just restart:
+1. Ctrl+C in both terminals
+2. Delete the old log: `rm -f arp_detector.log`
+3. Start Terminal 1 again, wait for the IP to appear, then run Terminal 2
